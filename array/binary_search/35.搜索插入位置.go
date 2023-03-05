@@ -1,7 +1,10 @@
-package main
+/*
+ * @lc app=leetcode.cn id=35 lang=golang
+ *
+ * [35] 搜索插入位置
+ */
 
-import "fmt"
-
+// @lc code=start
 func searchInsert(nums []int, target int) int {
 	l, r := 0, len(nums)-1
 	for l <= r {
@@ -16,6 +19,5 @@ func searchInsert(nums []int, target int) int {
 	}
 	return r + 1
 }
-func main() {
-	fmt.Println(searchInsert([]int{0, 1, 3}, 2))
-}
+// @lc code=end
+
