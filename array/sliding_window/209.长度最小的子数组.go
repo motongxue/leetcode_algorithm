@@ -40,27 +40,27 @@ import (
 // }
 
 func minSubArrayLen(target int, nums []int) int {
-	l, r, result := 0, 0, math.MaxInt
+	l, j, result := 0, 0, math.MaxInt
 	sum := 0
-	for r < len(nums) {
-		sum += nums[r]
+	for j < len(nums) {
+		sum += nums[j]
 		for sum >= target {
-			result = min(result, r-l+1)
+			result = min(result, j-l+1)
 			sum -= nums[l]
 			l++
 		}
-		r++
+		j++
 	}
 	if result == math.MaxInt {
 		return 0
 	}
 	return result
-	func min(a, b int) int {
-		if a > b {
-			return b
-		}
-		return a
+}
+func min(a, b int) int {
+	if a > b {
+		return b
 	}
+	return a
 }
 
 // @lc code=end
