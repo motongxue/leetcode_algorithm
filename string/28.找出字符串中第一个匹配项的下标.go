@@ -14,6 +14,7 @@ func strStr(haystack string, needle string) int {
 	next := make([]int, len(needle))
 	getNext(next, needle)
 	// 注意与next中的书写的差别
+	// i表示前缀末尾、j表示后缀末尾
 	j := -1
 	// 注意此时对haystack进行遍历
 	for i := 0; i < len(haystack); i++ {
@@ -36,6 +37,7 @@ func getNext(next []int, needle string) {
 	// 注意此时对needle进行遍历
 	for i := 1; i < len(needle); i++ {
 		// 这里注意是 >=0 还有 s[j+1]
+		// 向前回退可能是一个连续的过程，所以需要用for
 		for j >= 0 && needle[i] != needle[j+1] {
 			j = next[j]
 		}
