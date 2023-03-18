@@ -9,7 +9,7 @@ package main
 // 用两个栈来实现队列
 // push的时候，入s2，出栈的时候，若s1为空，需要将s2中所有元素添加到s1中，然后从s1中返回
 type MyQueue struct {
-	s1, s2 []int
+	stackOut, stackIn []int
 }
 
 func Constructor() MyQueue {
@@ -17,33 +17,41 @@ func Constructor() MyQueue {
 }
 
 func (this *MyQueue) Push(x int) {
-	this.s2 = append(this.s2, x)
+	this.stackIn = append(this.stackIn, x)
 }
 
 func (this *MyQueue) Pop() int {
 	var t int
-	if len(this.s1) != 0 {
-		t = this.s1[0]
-		this.s1 = this.s1[1:]
+	if len(this.stackOut) != 0 {
+		t = this.stackOut[len(this.stackOut)-1]
+		this.stackOut = this.stackOut[:len(this.stackOut)-1]
 	} else {
-		t = this.s2[0]
-		this.s2 = this.s2[1:]
+		for i:=len(this.stackIn)-1;i>=0;i--{
+			this.stackOut = append(this.stackOut, this.stackIn[i])
+		}
+		this.stackIn = []int{}
+		t = this.stackOut[len(this.stackOut)-1]
+		this.stackOut = this.stackOut[:len(this.stackOut)-1]
 	}
 	return t
 }
 
 func (this *MyQueue) Peek() int {
 	var t int
-	if len(this.s1) != 0 {
-		t = this.s1[0]
+	if len(this.stackOut) != 0 {
+		t = this.stackOut[len(this.stackOut)-1]
 	} else {
-		t = this.s2[0]
+		for i:=len(this.stackIn)-1;i>=0;i--{
+			this.stackOut = append(this.stackOut, this.stackIn[i])
+		}
+		this.stackIn = []int{}
+		t = this.stackOut[len(this.stackOut)-1]
 	}
 	return t
 }
 
 func (this *MyQueue) Empty() bool {
-	if len(this.s1) == 0 && len(this.s2) == 0 {
+	if len(this.stackOut) == 0 && len(this.stackIn) == 0 {
 		return true
 	}
 	return false
