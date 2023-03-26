@@ -14,7 +14,7 @@
  * }
  */
 //  =====================
-// 自己的版本：直接进行模拟就行，注意当一方节点已经为nil，则不能调用nil.left right指针，否则出现空指针异常
+// 自己的版本：直接进行模拟就行，注意当一方节点已经为nil，则不能调用nil.left right 指针，否则出现空指针异常
 // func mergeTrees(root1 *TreeNode, root2 *TreeNode) *TreeNode {
 // 	if root1 == nil && root2 == nil {
 // 		return nil
