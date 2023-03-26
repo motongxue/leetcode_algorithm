@@ -25,7 +25,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
 	return build(preorder, 0, len(preorder)-1, inorder, 0, len(inorder)-1)
 }
 func build(preorder []int, p_l, p_r int, inorder []int, i_l, i_r int) *TreeNode {
-	if p_l > p_r || i_l > i_r || p_l < 0 || i_l < 0 {
+	if p_l > p_r || i_l > i_r {
 		return nil
 	}
 	r := preorder[p_l]
