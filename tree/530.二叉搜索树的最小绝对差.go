@@ -13,10 +13,12 @@
  *     Right *TreeNode
  * }
  */
+/* 
+// =================================================
+// 由于是二叉搜索树，直接中序遍历即可
 var (
 	result []int
 )
-// 由于是二叉搜索树，直接中序遍历即可
 func getMinimumDifference(root *TreeNode) int {
 	res := math.MaxInt
 	result = []int{}
@@ -42,7 +44,39 @@ func abs(a, b int) int {
 		return a - b
 	}
 	return b - a
-}
+} */
+// =========================
+// 利用pre指针+二叉搜索树特性直接求值
+var (
+	resMin int
+	pre *TreeNode
 
+)
+func getMinimumDifference(root *TreeNode) int {
+	pre = nil
+	resMin = math.MaxInt
+	dfs(root)
+	return resMin
+}
+func dfs(root *TreeNode) {
+	if root == nil {
+		return
+	}
+	dfs(root.Left)
+	if pre != nil {
+		tmpMin := abs(pre.Val,root.Val)
+		if tmpMin < resMin {
+			resMin = tmpMin
+		}
+	}
+	pre = root
+	dfs(root.Right)
+}
+func abs(a, b int) int {
+	if a > b {
+		return a - b
+	}
+	return b - a
+} 
 // @lc code=end
 
