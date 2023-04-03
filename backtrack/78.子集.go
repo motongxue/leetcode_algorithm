@@ -13,9 +13,10 @@ func subsets(nums []int) [][]int {
 		tmp := []int{}
 		tmp = append(tmp, path...)
 		res = append(res, tmp)
-		if startIdx == len(nums) {
-			return
-		}
+		// if startIdx == len(nums) {
+		// 	return
+		// }
+		// 若 startIdx == len(nums) 时，也不会进入for循环，所以可以取消
 		for i := startIdx; i < len(nums); i++ {
 			backtracking(i+1, append(path, nums[i]))
 		}
