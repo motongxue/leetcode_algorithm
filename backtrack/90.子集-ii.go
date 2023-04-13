@@ -62,7 +62,7 @@ func subsetsWithDup(nums []int) [][]int {
 		res = append(res, tmp)
 
 		for i := startIdx; i < len(nums); i++ {
-			// 同样注意这里的 i > startIdx，
+			// TODO 同样注意这里的 i > startIdx，
 			// 并且nums[i] == nums[i-1]指的是对同一树层使用过的元素进行跳过
 			if i > startIdx && nums[i] == nums[i-1] {
 				continue
