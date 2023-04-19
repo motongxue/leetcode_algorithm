@@ -5,6 +5,7 @@
  */
 // TODO　不理解
 // 核心点：亏空最严重的一个点必须放在最后一步走，等着前面剩余的救助
+// 题解连接：https://leetcode.cn/problems/gas-station/solutions/54278/shi-yong-tu-de-si-xiang-fen-xi-gai-wen-ti-by-cyayc/
 // @lc code=start
 func canCompleteCircuit(gas []int, cost []int) int {
     spare, minSpare, minSpareIdx := 0, math.MaxInt, 0
