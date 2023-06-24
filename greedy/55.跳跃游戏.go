@@ -24,18 +24,19 @@ func max(a, b int) int {
 	return b
 }
 // ============================================
-// 如果是这种方式，则上限为cover
-// func canJump(nums []int) bool {
-//     cover := 0
-//     n := len(nums)-1
-//     for i := 0; i <= cover; i++ { // 每次与覆盖值比较
-//         fmt.Printf("%d %d \n",i+nums[i],cover)
-//         cover = max(i+nums[i], cover) //每走一步都将 cover 更新为最大值
-//         if cover >= n {
-//             return true
-//         }
-//     }
-//     return false
-// }
+// 记录数组中每个位置所能达到的最大值，然后i<maxStep，最后判断maxStep是否达到了数组的最后一个元素位置
+func canJump(nums []int) bool {
+    maxStep := nums[0]
+    for i := 0; i <= maxStep && i < len(nums); i++ {
+        maxStep = max(i + nums[i], maxStep)
+    }
+    return maxStep >= len(nums)-1
+}
+func max(a, b int) int {
+    if a > b {
+        return a
+    }
+    return b
+}
 // @lc code=end
 
