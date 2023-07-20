@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"sync"
 )
-
+// 采用匿名函数形式
 // 定义 3 个函数分别打印 cat、dog、fish，要求每个函数都要起一个 goroutine，按照 cat、dog、fish 顺序打印在屏幕上 100 次。
 func main() {
 	var wg sync.WaitGroup
