@@ -26,6 +26,7 @@ func main() {
 	zeroChan := make(chan struct{}, 1)
 	evenChan := make(chan struct{}, 1)
 	oddChan := make(chan struct{}, 1)
+	// TODO 注意获取屏幕输入的方式、格式
 	var n int
 	fmt.Scanln(&n)
 	wg := sync.WaitGroup{}
