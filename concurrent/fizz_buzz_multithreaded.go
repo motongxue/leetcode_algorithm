@@ -25,7 +25,7 @@ package main
 import (
 	"fmt"
 	"sync"
-	"time"
+	// "time"
 )
 
 // 定义结构体
@@ -35,17 +35,20 @@ type FizzBuzz struct {
 	fizzChan     chan struct{}
 	buzzChan     chan struct{}
 	fizzbuzzChan chan struct{}
-	numberChan   chan struct{}
+	// 为了传递i，采用chan int类型
+	numberChan   chan int
+	mainChan    chan struct{}
 	wg           sync.WaitGroup
 }
-var res string
+
 func NewFizzBuzz(n int) *FizzBuzz {
 	return &FizzBuzz{
 		n:            n,
 		fizzChan:     make(chan struct{}, 1),
 		buzzChan:     make(chan struct{}, 1),
 		fizzbuzzChan: make(chan struct{}, 1),
-		numberChan:   make(chan struct{}, 1),
+		numberChan:   make(chan int, 1),
+		mainChan:    make(chan struct{}, 1),
 		wg:           sync.WaitGroup{},
 	}
 }
@@ -53,36 +56,37 @@ func NewFizzBuzz(n int) *FizzBuzz {
 func (f *FizzBuzz) fizz() {
 	for {
 		<-f.fizzChan
-		res += "fizz\t"
 		fmt.Printf("fizz\t")
 		f.wg.Done()
+		f.mainChan <- struct{}{}
 	}
 }
 
 func (f *FizzBuzz) buzz() {
 	for {
 		<-f.buzzChan
-		res += "buzz\t"
 		fmt.Printf("buzz\t")
 		f.wg.Done()
+		f.mainChan <- struct{}{}
 	}
 }
 
 func (f *FizzBuzz) fizzbuzz() {
 	for {
 		<-f.fizzbuzzChan
-		res += "fizzbuzz\t"
 		fmt.Printf("fizzbuzz\t")
 		f.wg.Done()
+		f.mainChan <- struct{}{}
 	}
 }
 
 func (f *FizzBuzz) number() {
 	for {
-		<-f.numberChan
-		res += fmt.Sprintf("%d\t", f.n)
-		fmt.Printf("%d\t", f.n)
+		// 利用信号量将i进行传递
+		val, _ := <-f.numberChan
+		fmt.Printf("%d\t", val)
 		f.wg.Done()
+		f.mainChan <- struct{}{}
 	}
 }
 
@@ -104,9 +108,12 @@ func main() {
 		} else if i%5 == 0 {
 			f.buzzChan <- struct{}{}
 		} else {
-			f.numberChan <- struct{}{}
+			// 注意这里；利用信号量将i进行传递
+			f.numberChan <- i
 		}
 		// 使得输出有序
-		time.Sleep(time.Millisecond)
+		// 方法一：time.Sleep(time.Millisecond)
+		// 方法二：采用主线程信号量控制，保证顺序执行
+		<-f.mainChan
 	}
 }
