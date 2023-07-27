@@ -53,30 +53,31 @@ func NewFizzBuzz(n int) *FizzBuzz {
 	}
 }
 
+// 封装公共方法
+func (f *FizzBuzz) common(s string) {
+	fmt.Printf("%s\t", s)
+	f.wg.Done()
+	f.mainChan <- struct{}{}
+}
+
 func (f *FizzBuzz) fizz() {
 	for {
 		<-f.fizzChan
-		fmt.Printf("fizz\t")
-		f.wg.Done()
-		f.mainChan <- struct{}{}
+		f.common("fizz")
 	}
 }
 
 func (f *FizzBuzz) buzz() {
 	for {
 		<-f.buzzChan
-		fmt.Printf("buzz\t")
-		f.wg.Done()
-		f.mainChan <- struct{}{}
+		f.common("buzz")
 	}
 }
 
 func (f *FizzBuzz) fizzbuzz() {
 	for {
 		<-f.fizzbuzzChan
-		fmt.Printf("fizzbuzz\t")
-		f.wg.Done()
-		f.mainChan <- struct{}{}
+		f.common("fizzbuzz")
 	}
 }
 
@@ -84,9 +85,7 @@ func (f *FizzBuzz) number() {
 	for {
 		// 利用信号量将i进行传递
 		val, _ := <-f.numberChan
-		fmt.Printf("%d\t", val)
-		f.wg.Done()
-		f.mainChan <- struct{}{}
+		f.common(fmt.Sprintf("%d", val))
 	}
 }
 
