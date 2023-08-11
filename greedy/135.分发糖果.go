@@ -5,6 +5,9 @@
  */
 
 // @lc code=start
+// 将「相邻的孩子中，评分高的孩子必须获得更多的糖果」这句话拆分为两个规则，分别处理。
+// 左规则：当 ratings[i−1]<ratings[i]时，i号学生的糖果数量将比i−1号孩子的糖果数量多。
+// 右规则：当 ratings[i]>ratings[i+1]时，i号学生的糖果数量将比i+1号孩子的糖果数量多。
 func candy(ratings []int) int {
 	left := make([]int, len(ratings))
 	right := make([]int, len(ratings))
