@@ -11,56 +11,36 @@ import (
 )
 
 // @lc code=start
-
-// 最暴力的方法，超时
-// func minSubArrayLen(target int, nums []int) int {
-// 	res := -1
-// 	step := len(nums) - 1
-// 	for step >= 0 {
-// 		i := 0
-// 		j := i + step
-// 		for i < len(nums) && j < len(nums) {
-// 			tmp := 0
-// 			for k := i; k <= j; k++ {
-// 				tmp += nums[k]
-// 			}
-// 			if tmp >= target {
-// 				res = step
-// 			}
-// 			i++
-// 			j++
-// 		}
-// 		step--
-// 	}
-// 	if res == -1 {
-// 		return 0
-// 	} else {
-// 		return res + 1
-// 	}
-// }
-
 func minSubArrayLen(target int, nums []int) int {
-	l, j, result := 0, 0, math.MaxInt
-	sum := 0
-	for j < len(nums) {
-		sum += nums[j]
-		for sum >= target {
-			result = min(result, j-l+1)
-			sum -= nums[l]
-			l++
-		}
-		j++
-	}
-	if result == math.MaxInt {
-		return 0
-	}
-	return result
+	// 此时窗口变成了整型
+    window := 0
+    l, r := 0, 0
+    res := math.MaxInt
+    for r < len(nums) {
+        c := nums[r]
+        r++
+        window += c
+
+		// 当窗口中的和已经满足≥target的条件后，便可以进行收缩
+        for window >= target {
+			// 需要先进行统计
+            res = min(res, r - l)
+            d := nums[l]
+            l++
+            window -= d
+        }
+    }
+    if res == math.MaxInt {
+        return 0
+    }
+    return res
 }
+
 func min(a, b int) int {
-	if a > b {
-		return b
-	}
-	return a
+    if a < b {
+        return a
+    }
+    return b
 }
 
 // @lc code=end

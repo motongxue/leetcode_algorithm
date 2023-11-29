@@ -7,27 +7,29 @@ package main
 
 // @lc code=start
 func lengthOfLongestSubstring(s string) int {
-	l, r := 0, 0
-	mp := make(map[byte]int)
-	cnt := 0
-	for r < len(s) {
-		c := s[r]
-		mp[c]++
-		r++
-		for mp[c] > 1 {
-			d := s[l]
-			mp[d]--
-			l++
-		}
-		cnt = max(r-l, cnt)
-	}
-	return cnt
+    windows := map[byte]int{}
+    l, r := 0, 0
+    cnt := 0
+    for r < len(s) {
+        ch := s[r]
+        r++
+        windows[ch]++
+		// 收缩
+        for windows[ch] > 1 {
+            d := s[l]
+            l++
+            windows[d]--
+        }
+        // 此处不能直接使用len(mp)
+        cnt = max(cnt, r-l)
+    }
+    return cnt
 }
 func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
+    if a > b {
+        return a
+    }
+    return b
 }
 
 // @lc code=end
