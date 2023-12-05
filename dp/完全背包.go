@@ -5,7 +5,7 @@ func UnboundedKnapsackProblem_1() {
 	weight := []int{1, 3, 4}   // 物品重量
 	value := []int{15, 20, 30} // 物品价值
 	bagWeight := 4             // 背包容量
-	// 初始化二维dp数组
+	// 初始化dp数组
 	dp := make([]int, bagWeight+1)
 	for i := 0; i < len(weight); i++ {
 		for j := weight[i]; j <= bagWeight; j++ {
@@ -21,7 +21,7 @@ func UnboundedKnapsackProblem_2() {
 	weight := []int{1, 3, 4}   // 物品重量
 	value := []int{15, 20, 30} // 物品价值
 	bagWeight := 4             // 背包容量
-	// 初始化二维dp数组
+	// 初始化dp数组
 	dp := make([]int, bagWeight+1)
 	for j := 0; j <= bagWeight; j++ {
 		for i := 0; i < len(weight); i++ {
