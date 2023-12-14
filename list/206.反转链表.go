@@ -20,28 +20,36 @@ type ListNode struct {
  *     Next *ListNode
  * }
  */
+ // 递归写法
+ func reverseList(head *ListNode) *ListNode {
+    if head == nil || head.Next == nil {
+        return head
+    }
+    ret := reverseList(head.Next)
+    head.Next.Next = head
+    head.Next = nil
+    return ret
+}
+
+// 迭代写法
+// O	O  ->  O  ->  O
+// ↑	↑	   ↑	  ↑
+// prev cur    next
+//
+// O <- O      O  ->  O
+// ↑	↑	   ↑	  ↑
+// 		prev   cur    next
 func reverseList(head *ListNode) *ListNode {
-	dummyHead := &ListNode{
-		Next: nil,
-	}
-	reverse(head, dummyHead)
-	return dummyHead.Next
+    var prev *ListNode
+    cur := head
+    for cur != nil {
+        next := cur.Next
+        cur.Next = prev
+        prev = cur
+        cur = next
+    }
+    return prev
 }
-
-func reverse(cur, result *ListNode) {
-	if cur != nil {
-		reverse(cur.Next, result)
-		tmp := result
-		for tmp.Next != nil {
-			tmp = tmp.Next
-		}
-		tmp.Next = &ListNode{
-			Val: cur.Val,
-			Next: nil,
-		}
-	}
-}
-
 // @lc code=end
 
 func main() {
